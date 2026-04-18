@@ -1,17 +1,22 @@
 .ad-card {
   background: var(--surface);
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.2s ease;
   position: relative;
 }
 
 .ad-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.14);
+}
+
+.ad-card:hover .ad-image {
+  transform: scale(1.04);
 }
 
 .ad-image-wrapper,
@@ -23,7 +28,7 @@
   justify-content: center;
   background: var(--surface-soft);
   overflow: hidden;
-  border-radius: 19px 19px 0 0;
+  border-radius: 16px 16px 0 0;
 }
 
 .ad-image {
@@ -31,6 +36,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: all 0.2s ease;
 }
 
 .ad-image-placeholder {
@@ -69,7 +75,7 @@
 }
 
 .ad-price {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
   color: white;
   padding: 10px 14px;
   border-radius: 14px;
@@ -121,7 +127,7 @@
   padding: 10px 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .delete-btn:hover:not(:disabled) {
@@ -135,14 +141,24 @@
 }
 
 @media (max-width: 600px) {
+  .ad-card {
+    border-radius: 18px;
+  }
+
   .ad-header {
     flex-direction: column;
     align-items: stretch;
+    padding: 16px 16px 10px;
   }
 
   .ad-price {
     width: 100%;
     text-align: center;
+  }
+
+  .ad-meta-row {
+    padding: 0 16px 16px;
+    padding-top: 12px;
   }
 
   .ad-meta-row {

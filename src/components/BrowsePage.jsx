@@ -16,6 +16,7 @@ export default function BrowsePage({
   user,
   loading,
   error,
+  usingDemoAds,
   onDelete,
   t
 }) {
@@ -38,11 +39,14 @@ export default function BrowsePage({
       return dateB - dateA;
     })[0]?.title || t.noAdsYet;
 
+  const categoriesFromAds = [...new Set(allAds.map((ad) => ad.category).filter(Boolean))];
+
   return (
     <div className="container">
       <section className="section">
         <h2>{t.browse}</h2>
-        <p>{t.searchLabel}</p>
+        <p>{t.searchWithFilters}</p>
+        {usingDemoAds && <p className="demo-note">{t.demoModeBadge}</p>}
       </section>
 
       <MarketplaceStats
@@ -65,6 +69,7 @@ export default function BrowsePage({
             onSortChange={onSortChange}
             showMine={showMine}
             onShowMineChange={onShowMineChange}
+            categories={categoriesFromAds.length ? categoriesFromAds : t.categories}
             t={t}
           />
         </section>

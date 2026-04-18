@@ -37,11 +37,140 @@ const LANGUAGE_NAMES = {
 
 const HERO_ACTION_KEYS = ['browse', 'sell', 'profile', 'google'];
 
+const DEMO_ADS = [
+  {
+    id: 'demo-1',
+    title: 'iPhone 13 128GB, идеальное состояние',
+    category: 'Электроника',
+    price: 47000,
+    userName: 'Алина',
+    createdBy: 'demo-user-1',
+    imageUrl: 'https://picsum.photos/seed/market-1/900/700',
+    createdAt: '2026-04-18T08:10:00.000Z'
+  },
+  {
+    id: 'demo-2',
+    title: 'MacBook Air M2, 16/512',
+    category: 'Электроника',
+    price: 98000,
+    userName: 'Руслан',
+    createdBy: 'demo-user-2',
+    imageUrl: 'https://picsum.photos/seed/market-2/900/700',
+    createdAt: '2026-04-17T15:30:00.000Z'
+  },
+  {
+    id: 'demo-3',
+    title: 'Nike Air Force 1, размер 42',
+    category: 'Одежда',
+    price: 6200,
+    userName: 'Айжан',
+    createdBy: 'demo-user-3',
+    imageUrl: 'https://picsum.photos/seed/market-3/900/700',
+    createdAt: '2026-04-16T11:05:00.000Z'
+  },
+  {
+    id: 'demo-4',
+    title: 'Toyota Camry 55, 2018',
+    category: 'Авто',
+    price: 1820000,
+    userName: 'Нурбек',
+    createdBy: 'demo-user-4',
+    imageUrl: 'https://picsum.photos/seed/market-4/900/700',
+    createdAt: '2026-04-15T13:22:00.000Z'
+  },
+  {
+    id: 'demo-5',
+    title: 'Игровой монитор 27 дюймов 165Hz',
+    category: 'Электроника',
+    price: 19500,
+    userName: 'Дамир',
+    createdBy: 'demo-user-5',
+    imageUrl: 'https://picsum.photos/seed/market-5/900/700',
+    createdAt: '2026-04-14T10:55:00.000Z'
+  },
+  {
+    id: 'demo-6',
+    title: 'Кожаная куртка, новая',
+    category: 'Одежда',
+    price: 8900,
+    userName: 'Сезим',
+    createdBy: 'demo-user-6',
+    imageUrl: 'https://picsum.photos/seed/market-6/900/700',
+    createdAt: '2026-04-13T09:40:00.000Z'
+  },
+  {
+    id: 'demo-7',
+    title: 'Hyundai Tucson 2020, AWD',
+    category: 'Авто',
+    price: 2140000,
+    userName: 'Бек',
+    createdBy: 'demo-user-7',
+    imageUrl: 'https://picsum.photos/seed/market-7/900/700',
+    createdAt: '2026-04-12T16:00:00.000Z'
+  },
+  {
+    id: 'demo-8',
+    title: 'Диван-трансформер 3-местный',
+    category: 'Другое',
+    price: 28000,
+    userName: 'Елена',
+    createdBy: 'demo-user-8',
+    imageUrl: 'https://picsum.photos/seed/market-8/900/700',
+    createdAt: '2026-04-11T12:15:00.000Z'
+  },
+  {
+    id: 'demo-9',
+    title: 'PlayStation 5 + 2 геймпада',
+    category: 'Электроника',
+    price: 52000,
+    userName: 'Тимур',
+    createdBy: 'demo-user-9',
+    imageUrl: 'https://picsum.photos/seed/market-9/900/700',
+    createdAt: '2026-04-10T17:33:00.000Z'
+  },
+  {
+    id: 'demo-10',
+    title: 'Смарт-часы Garmin Venu 2',
+    category: 'Электроника',
+    price: 14500,
+    userName: 'Медина',
+    createdBy: 'demo-user-10',
+    imageUrl: 'https://picsum.photos/seed/market-10/900/700',
+    createdAt: '2026-04-09T14:05:00.000Z'
+  },
+  {
+    id: 'demo-11',
+    title: 'Горный велосипед Trek',
+    category: 'Другое',
+    price: 38000,
+    userName: 'Арсен',
+    createdBy: 'demo-user-11',
+    imageUrl: 'https://picsum.photos/seed/market-11/900/700',
+    createdAt: '2026-04-08T10:20:00.000Z'
+  },
+  {
+    id: 'demo-12',
+    title: 'Платье вечернее, размер M',
+    category: 'Одежда',
+    price: 4500,
+    userName: 'Диана',
+    createdBy: 'demo-user-12',
+    imageUrl: 'https://picsum.photos/seed/market-12/900/700',
+    createdAt: '2026-04-07T18:12:00.000Z'
+  }
+];
+
 const translations = {
   ru: {
     appTitle: 'Simple Marketplace PRO',
     eyebrow: 'Твой маркетплейс на Firebase',
+    homeHeadline: 'Маркетплейс для покупки и продажи товаров',
     tagline: 'Быстрый, современный и безопасный маркетплейс с Firebase Auth, Storage и реальным обновлением объявлений.',
+    homeAbout: 'Проект Pablonik: удобная площадка, где можно быстро найти нужный товар или разместить свое объявление за пару минут.',
+    homeCtaStart: 'Начать',
+    homeCtaPublish: 'Разместить объявление',
+    demoModeBadge: 'Демо-каталог: 12 тестовых товаров с ценами и фото',
+    searchWithFilters: 'Поиск с фильтрами',
     heroTags: ['Объявления', 'Загрузка фото', 'Пользовательский доступ', 'Вход Google'],
     footer: '© 2026 Simple Marketplace. Все права защищены.',
     firebaseUnavailable: 'Firebase ещё не настроен. Добавьте VITE_FIREBASE_* переменные в .env.local.',
@@ -196,7 +325,13 @@ const translations = {
   en: {
     appTitle: 'Simple Marketplace PRO',
     eyebrow: 'Your Firebase marketplace',
+    homeHeadline: 'Marketplace for buying and selling goods',
     tagline: 'Fast, modern and secure marketplace with Firebase Auth, Storage and real-time updates.',
+    homeAbout: 'Pablonik project: a practical place to discover products quickly and publish your own listings in minutes.',
+    homeCtaStart: 'Start now',
+    homeCtaPublish: 'Post listing',
+    demoModeBadge: 'Demo catalog: 12 sample products with prices and photos',
+    searchWithFilters: 'Search with filters',
     heroTags: ['Realtime Ads', 'Image Upload', 'User Ownership', 'Google Sign In'],
     footer: '© 2026 Simple Marketplace. All rights reserved.',
     firebaseUnavailable: 'Firebase is not configured yet. Add VITE_FIREBASE_* values to .env.local.',
@@ -351,7 +486,13 @@ const translations = {
   ky: {
     appTitle: 'Simple Marketplace PRO',
     eyebrow: 'Firebase базасындагы маркетплейс',
+    homeHeadline: 'Товар сатып алуу жана сатуу үчүн маркетплейс',
     tagline: 'Firebase Auth, Storage жана реалдуу убакыт жаңыртуулар менен ылдам, заманбап жана коопсуз маркетплейс.',
+    homeAbout: 'Pablonik долбоору: керектүү товарды бат табууга жана өз жарыяңызды бир нече мүнөттө жайгаштырууга ыңгайлуу аянтча.',
+    homeCtaStart: 'Баштоо',
+    homeCtaPublish: 'Жарыя жайгаштыруу',
+    demoModeBadge: 'Демо-каталог: 12 тесттик товар, баалар жана сүрөттөр',
+    searchWithFilters: 'Фильтр менен издөө',
     heroTags: ['Жандуу жарнамалар', 'Сүрөт жүктөө', 'Колдонуучу ээлик', 'Google кирүү'],
     footer: '© 2026 Simple Marketplace. Бардык укуктар корголгон.',
     firebaseUnavailable: 'Firebase али жөндөлө элек. .env.local файлына VITE_FIREBASE_* маанилерин кошуңуз.',
@@ -537,6 +678,9 @@ function AppContent() {
 
   const t = translations[locale] || translations.ru;
   const isAdmin = user?.email ? ADMIN_EMAILS.includes(user.email.toLowerCase()) : false;
+  const usingDemoAds = ads.length === 0;
+  const adsToShow = usingDemoAds ? DEMO_ADS : ads;
+  const effectiveLoading = loading && !usingDemoAds;
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -646,7 +790,7 @@ function AppContent() {
   };
 
   const getFilteredAndSortedAds = useMemo(() => {
-    let filtered = [...ads];
+    let filtered = [...adsToShow];
 
     if (showMine && user) {
       filtered = filtered.filter((ad) => ad.createdBy === user.uid);
@@ -677,9 +821,9 @@ function AppContent() {
     }
 
     return filtered;
-  }, [ads, showMine, user, searchValue, selectedCategory, sortOrder]);
+  }, [adsToShow, showMine, user, searchValue, selectedCategory, sortOrder]);
 
-  const myAds = ads.filter((ad) => ad.createdBy === user?.uid);
+  const myAds = adsToShow.filter((ad) => ad.createdBy === user?.uid);
 
   const filteredAds = getFilteredAndSortedAds;
 
@@ -965,13 +1109,31 @@ function AppContent() {
                 onClick={toggleLogoZoom}
                 aria-label="Toggle logo zoom"
               >
-                SM
+                PB
               </button>
               <div>
                 <p className="eyebrow">{t.eyebrow}</p>
-                <h1 className="app-title">{t.appTitle}</h1>
+                <h1 className="app-title">{t.homeHeadline}</h1>
                 <p className="lead-text">{t.tagline}</p>
+                <p className="project-note">{t.homeAbout}</p>
+                {usingDemoAds && <span className="demo-pill">{t.demoModeBadge}</span>}
               </div>
+            </div>
+            <div className="hero-cta-row">
+              <button
+                type="button"
+                className="hero-primary-btn"
+                onClick={() => handleHeroAction('browse')}
+              >
+                {t.homeCtaStart}
+              </button>
+              <button
+                type="button"
+                className="hero-secondary-btn"
+                onClick={() => handleHeroAction('sell')}
+              >
+                {t.homeCtaPublish}
+              </button>
             </div>
             <div className="hero-tag-list">
               {HERO_ACTION_KEYS.map((actionKey, index) => (
@@ -1015,9 +1177,10 @@ function AppContent() {
               path="/"
               element={
                 <HomePage
-                  allAds={ads}
+                  allAds={adsToShow}
                   user={user}
                   authLoading={authLoading}
+                  usingDemoAds={usingDemoAds}
                   t={t}
                 />
               }
@@ -1043,7 +1206,7 @@ function AppContent() {
               path="/browse"
               element={
                 <BrowsePage
-                  allAds={ads}
+                  allAds={adsToShow}
                   filteredAds={filteredAds}
                   searchValue={searchValue}
                   onSearchChange={setSearchValue}
@@ -1054,8 +1217,9 @@ function AppContent() {
                   showMine={showMine}
                   onShowMineChange={setShowMine}
                   user={user}
-                  loading={loading}
+                  loading={effectiveLoading}
                   error={error}
+                  usingDemoAds={usingDemoAds}
                   onDelete={handleDelete}
                   t={t}
                 />
@@ -1077,7 +1241,7 @@ function AppContent() {
               element={
                 <MyAdsPage
                   ads={myAds}
-                  loading={loading}
+                  loading={effectiveLoading}
                   error={error}
                   user={user}
                   onDelete={handleDelete}
@@ -1089,7 +1253,7 @@ function AppContent() {
               path="/stats"
               element={
                 <StatsPage
-                  allAds={ads}
+                  allAds={adsToShow}
                   user={user}
                   t={t}
                 />

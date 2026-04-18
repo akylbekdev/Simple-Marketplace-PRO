@@ -1,7 +1,5 @@
 import '../styles/AdFilter.css';
 
-const CATEGORIES = ['Электроника', 'Кийим', 'Авто', 'Башка'];
-
 export default function AdFilter({
   searchValue,
   onSearchChange,
@@ -11,8 +9,15 @@ export default function AdFilter({
   onSortChange,
   showMine,
   onShowMineChange,
+  categories: categoriesProp,
   t
 }) {
+  const categories = Array.isArray(categoriesProp)
+    ? categoriesProp
+    : Array.isArray(t.categories)
+    ? t.categories
+    : [];
+
   return (
     <div className="ad-filter">
       <div className="filter-section">
@@ -36,7 +41,7 @@ export default function AdFilter({
           className="category-select"
         >
           <option value="">{t.allCategories}</option>
-          {CATEGORIES.map((cat) => (
+          {categories.map((cat) => (
             <option key={cat} value={cat}>
               {cat}
             </option>

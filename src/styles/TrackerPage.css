@@ -19,8 +19,8 @@
 .tracker-spinner {
   width: 20px;
   height: 20px;
-  border: 3px solid rgba(14, 165, 233, 0.18);
-  border-top-color: #0ea5e9;
+  border: 3px solid rgba(99, 102, 241, 0.2);
+  border-top-color: #6366f1;
   border-radius: 50%;
   animation: t-spin 0.7s linear infinite;
   flex-shrink: 0;
@@ -69,7 +69,7 @@
   flex-wrap: wrap;
   padding: 24px 28px;
   background:
-    radial-gradient(circle at top left, rgba(34, 197, 94, 0.18), transparent 42%),
+    radial-gradient(circle at top left, rgba(99, 102, 241, 0.2), transparent 42%),
     linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.94));
   border: 1px solid rgba(148, 163, 184, 0.16);
   border-radius: 24px;
@@ -111,7 +111,7 @@
 .tracker-total-value {
   font-size: 1.55rem;
   font-weight: 900;
-  color: #4ade80;
+  color: #c7d2fe;
 }
 
 /* ─── Filters ─── */
@@ -136,7 +136,7 @@
 }
 
 .tracker-select:focus {
-  border-color: rgba(34, 197, 94, 0.6);
+  border-color: rgba(99, 102, 241, 0.6);
 }
 
 .tracker-period-tabs {
@@ -157,11 +157,11 @@
   font-weight: 700;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: background 0.18s, color 0.18s;
+  transition: all 0.2s ease;
 }
 
 .tracker-tab.active {
-  background: linear-gradient(135deg, #0ea5e9, #22c55e);
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
   color: #fff;
 }
 
@@ -232,26 +232,26 @@
 
 .tracker-field input:focus,
 .tracker-field-select:focus {
-  border-color: rgba(34, 197, 94, 0.65);
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.12);
+  border-color: rgba(99, 102, 241, 0.65);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
 }
 
 .tracker-add-btn {
   padding: 13px 20px;
   border-radius: 14px;
   border: none;
-  background: linear-gradient(135deg, #0ea5e9, #22c55e);
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
   color: #fff;
   font-weight: 800;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
-  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.24);
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.24);
 }
 
 .tracker-add-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 14px 32px rgba(14, 165, 233, 0.32);
+  box-shadow: 0 14px 32px rgba(79, 70, 229, 0.32);
 }
 
 .tracker-add-btn:disabled {
@@ -302,7 +302,7 @@
 
 .tracker-breakdown-bar {
   height: 100%;
-  background: linear-gradient(90deg, #0ea5e9, #22c55e);
+  background: linear-gradient(90deg, #6366f1, #4f46e5);
   border-radius: 99px;
   transition: width 0.4s ease;
   min-width: 4px;
@@ -347,7 +347,7 @@
   border-radius: 14px;
   background: var(--surface-soft);
   border: 1px solid var(--border);
-  transition: background 0.18s;
+  transition: all 0.2s ease;
 }
 
 .tracker-item:hover {

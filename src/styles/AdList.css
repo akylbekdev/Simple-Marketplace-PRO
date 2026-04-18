@@ -31,14 +31,14 @@
 .ad-list.error {
   background: rgba(254, 226, 226, 0.3);
   color: #991b1b;
-  border-radius: 8px;
+  border-radius: 14px;
   border: 2px solid rgba(248, 113, 113, 0.4);
 }
 
 .ad-list.empty {
   background: var(--surface-soft);
   color: var(--primary);
-  border-radius: 8px;
+  border-radius: 14px;
   border: 2px dashed var(--primary);
 }
 
@@ -51,11 +51,11 @@
 @media (max-width: 768px) {
   .ads-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
+    gap: 14px;
   }
 
   .ad-list h2 {
-    font-size: 1.3rem;
+    font-size: 1.36rem;
   }
 }
 

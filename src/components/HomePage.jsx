@@ -28,11 +28,11 @@ export default function HomePage({ allAds, user, t }) {
         <p>{t.welcome}</p>
 
         <div className="quick-actions">
-          <Link className="action-card" to="/browse">
+          <Link className="action-card action-card-primary" to="/browse">
             <strong>{t.browse}</strong>
-            <p>{t.searchLabel}</p>
+            <p>{t.searchWithFilters}</p>
           </Link>
-          <Link className="action-card" to="/sell">
+          <Link className="action-card action-card-primary" to="/sell">
             <strong>{t.sell}</strong>
             <p>{t.addAdHeading}</p>
           </Link>

@@ -17,11 +17,11 @@
   height: 42px;
   border-radius: 50%;
   border: none;
-  background: linear-gradient(135deg, #8b5cf6, #c084fc);
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
   color: #ffffff;
   cursor: pointer;
-  box-shadow: 0 14px 30px rgba(139, 92, 246, 0.32);
-  transition: transform 0.25s ease, background 0.25s ease;
+  box-shadow: 0 10px 24px rgba(79, 70, 229, 0.3);
+  transition: all 0.2s ease;
 }
 
 .sidebar-toggle:hover {
@@ -35,7 +35,7 @@
   width: 240px;
   height: 100vh;
   transform: translateX(-200px);
-  transition: transform 0.25s ease;
+  transition: transform 0.2s ease;
   background: var(--surface);
   border-right: 1px solid var(--border);
   padding: 1rem;
@@ -63,8 +63,8 @@
   padding: 0.75rem 1rem;
   text-decoration: none;
   color: var(--text);
-  border-radius: 8px;
-  transition: background-color 0.2s;
+  border-radius: 12px;
+  transition: all 0.2s ease;
 }
 
 .sidebar-link:hover {

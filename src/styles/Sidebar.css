@@ -1,0 +1,121 @@
+.sidebar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 42px;
+  height: 100vh;
+  z-index: 60;
+  padding: 0;
+  overflow: visible;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  right: -46px;
+  top: 20px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #8b5cf6, #c084fc);
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(139, 92, 246, 0.32);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.sidebar-toggle:hover {
+  transform: translateX(2px);
+}
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  transform: translateX(-200px);
+  transition: transform 0.25s ease;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 1rem;
+  overflow-y: auto;
+  box-shadow: 20px 0 60px rgba(15, 23, 42, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-wrapper:hover .sidebar {
+  transform: translateX(0);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: var(--text);
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.sidebar-link:hover {
+  background: var(--hover);
+}
+
+.sidebar-link.active {
+  background: var(--primary);
+  color: white;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 0.75rem;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #ffffff;
+  font-size: 0.9rem;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .sidebar-link {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}

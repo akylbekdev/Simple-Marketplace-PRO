@@ -1,0 +1,59 @@
+/* ─────────────────────────────────────
+   ColorWheelPicker
+───────────────────────────────────── */
+
+.cwp-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  padding: 12px 0 6px;
+}
+
+.cwp-name-bubble {
+  background: #ffffff;
+  color: #0f172a;
+  padding: 5px 18px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+  text-align: center;
+  min-width: 90px;
+  pointer-events: none;
+}
+
+.cwp-wheel {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  cursor: crosshair;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.36);
+  display: block;
+}
+
+.cwp-slider {
+  width: 180px;
+  height: 24px;
+  border-radius: 999px;
+  cursor: ew-resize;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+  display: block;
+}
+
+.cwp-preview {
+  width: 180px;
+  height: 30px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+  letter-spacing: 0.1em;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+}

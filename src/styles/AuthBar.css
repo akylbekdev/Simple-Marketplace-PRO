@@ -1,0 +1,384 @@
+﻿/* ─────────────────────────────────────
+   AuthBar — compact settings toolbar
+───────────────────────────────────── */
+
+.auth-bar {
+  padding: 14px 24px;
+  background:
+    radial-gradient(circle at top left, rgba(14, 165, 233, 0.18), transparent 38%),
+    linear-gradient(135deg, rgba(15, 23, 42, 0.97), rgba(30, 41, 59, 0.95));
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  margin: 0 auto 24px;
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  position: relative;
+  z-index: 20;
+  overflow: visible;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* ─── Toolbar row ─── */
+.toolbar-stack {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 38px;
+  background: rgba(148, 163, 184, 0.2);
+  margin: 0 20px;
+  flex-shrink: 0;
+}
+
+.toolbar-control {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+/* Highlight block stacks vertically inside the row */
+.toolbar-control-highlight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  position: relative;
+}
+
+.toolbar-control-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+/* ─── Labels ─── */
+.toolbar-label {
+  color: rgba(226, 232, 240, 0.92);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.toolbar-hint {
+  font-size: 0.82rem;
+  color: rgba(226, 232, 240, 0.7);
+  margin-top: 2px;
+}
+
+/* ─── Theme pill ─── */
+.toolbar-pill {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: background 0.2s, transform 0.18s;
+  white-space: nowrap;
+}
+
+.toolbar-pill:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+.pill-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pill-dot.light {
+  background: #fbbf24;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
+}
+
+.pill-dot.dark {
+  background: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+/* ─── Toggle switch ─── */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 999px;
+  transition: background 0.2s;
+}
+
+.slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.22s ease;
+}
+
+.switch input:checked + .slider {
+  background: #0ea5e9;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+/* ─── Highlight quick-row ─── */
+.hl-quick-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Small circular preset buttons */
+.hl-preset-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+}
+
+.hl-preset-btn:hover {
+  transform: scale(1.18);
+}
+
+.hl-preset-btn.hl-active {
+  border-color: white;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.hl-wheel-open-btn {
+  /* background set inline */
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.25);
+}
+
+/* Gradient colour strip */
+.hl-gradient-strip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+/* Individual swatch */
+.hl-swatch {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.15s, border-color 0.15s;
+  overflow: visible;
+}
+
+.hl-swatch:hover {
+  transform: scale(1.2);
+  border-color: white;
+}
+
+.hl-swatch.hl-swatch-editing {
+  border-color: white;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55);
+}
+
+.hl-swatch-remove {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.85);
+  color: white;
+  font-size: 10px;
+  line-height: 14px;
+  text-align: center;
+  cursor: pointer;
+  display: none;
+  user-select: none;
+}
+
+.hl-swatch:hover .hl-swatch-remove {
+  display: block;
+}
+
+/* Add colour button */
+.hl-add-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 255, 255, 0.45);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.18s, background 0.18s, transform 0.18s;
+  flex-shrink: 0;
+}
+
+.hl-add-btn:hover {
+  border-color: white;
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.15);
+}
+
+/* Wheel integrated directly in toolbar */
+.hl-wheel-inline {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 35;
+  padding: 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(8, 15, 30, 0.9);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.4);
+}
+
+.hl-wheel-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.72);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.hl-wheel-close:hover {
+  transform: scale(1.07);
+  background: rgba(30, 41, 59, 0.92);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 860px) {
+  .hl-wheel-inline {
+    left: auto;
+    right: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .hl-wheel-inline {
+    position: static;
+    margin-top: 6px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/* ─── Language select ─── */
+.toolbar-select {
+  min-width: 130px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.48);
+  color: white;
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.toolbar-select:focus {
+  border-color: rgba(14, 165, 233, 0.6);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 860px) {
+  .auth-bar {
+    padding: 14px 18px;
+    width: 100%;
+  }
+
+  .toolbar-divider {
+    display: none;
+  }
+
+  .toolbar-stack {
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .toolbar-control {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .auth-bar {
+    width: 100%;
+  }
+
+  .toolbar-stack {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .toolbar-select {
+    width: 100%;
+  }
+
+  .toolbar-pill {
+    width: 100%;
+    justify-content: center;
+  }
+}
+  

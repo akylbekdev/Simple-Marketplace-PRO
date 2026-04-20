@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import '../styles/AdFilter.css';
 
 export default function AdFilter({
@@ -10,6 +11,10 @@ export default function AdFilter({
   showMine,
   onShowMineChange,
   categories: categoriesProp,
+  minPrice,
+  onMinPriceChange,
+  maxPrice,
+  onMaxPriceChange,
   t
 }) {
   const categories = Array.isArray(categoriesProp)
@@ -47,6 +52,34 @@ export default function AdFilter({
             </option>
           ))}
         </select>
+      </div>
+
+      <div className="filter-section">
+        <label>{t.priceLabel || 'Цена'}</label>
+        <div className="price-filter">
+          <div className="price-input-group">
+            <label htmlFor="minPrice">От:</label>
+            <input
+              id="minPrice"
+              type="number"
+              min="0"
+              value={minPrice}
+              onChange={(e) => onMinPriceChange(Number(e.target.value))}
+              className="price-input"
+            />
+          </div>
+          <div className="price-input-group">
+            <label htmlFor="maxPrice">До:</label>
+            <input
+              id="maxPrice"
+              type="number"
+              min="0"
+              value={maxPrice}
+              onChange={(e) => onMaxPriceChange(Number(e.target.value))}
+              className="price-input"
+            />
+          </div>
+        </div>
       </div>
 
       <div className="filter-section">

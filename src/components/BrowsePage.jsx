@@ -13,6 +13,12 @@ export default function BrowsePage({
   onSortChange,
   showMine,
   onShowMineChange,
+  minPrice,
+  onMinPriceChange,
+  maxPrice,
+  onMaxPriceChange,
+  onFavoriteToggle,
+  isFavorite,
   user,
   loading,
   error,
@@ -70,6 +76,10 @@ export default function BrowsePage({
             showMine={showMine}
             onShowMineChange={onShowMineChange}
             categories={categoriesFromAds.length ? categoriesFromAds : t.categories}
+            minPrice={minPrice}
+            onMinPriceChange={onMinPriceChange}
+            maxPrice={maxPrice}
+            onMaxPriceChange={onMaxPriceChange}
             t={t}
           />
         </section>
@@ -80,6 +90,8 @@ export default function BrowsePage({
             loading={loading}
             error={error}
             onDelete={onDelete}
+            onFavoriteToggle={onFavoriteToggle}
+            isFavorite={isFavorite}
             currentUser={user}
             isAdmin={false}
             t={t}

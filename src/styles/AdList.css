@@ -42,6 +42,57 @@
   border: 2px dashed var(--primary);
 }
 
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 50px 30px;
+}
+
+.empty-icon {
+  font-size: 3.5rem;
+  opacity: 0.8;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.empty-state h3 {
+  color: var(--text);
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.empty-state p {
+  color: var(--muted);
+  font-size: 1rem;
+  margin: 0;
+  max-width: 400px;
+}
+
+.empty-state.error-state {
+  border: 2px solid rgba(248, 113, 113, 0.4);
+  background: rgba(254, 226, 226, 0.1);
+  border-radius: 14px;
+}
+
+.empty-state.error-state .empty-icon {
+  color: #dc2626;
+}
+
+.empty-state.error-state p {
+  color: #991b1b;
+}
+
 @media (max-width: 1000px) {
   .ads-grid {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

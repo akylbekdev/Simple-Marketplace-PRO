@@ -38,125 +38,403 @@ const LANGUAGE_NAMES = {
 const HERO_ACTION_KEYS = ['browse', 'sell', 'profile', 'google'];
 
 const DEMO_ADS = [
+  // Электроника - Premium
   {
     id: 'demo-1',
-    title: 'iPhone 13 128GB, идеальное состояние',
+    title: 'iPhone 15 Pro Max 512GB, как новый',
     category: 'Электроника',
-    price: 47000,
+    price: 85000,
     userName: 'Алина',
     createdBy: 'demo-user-1',
-    imageUrl: 'https://picsum.photos/seed/market-1/900/700',
-    createdAt: '2026-04-18T08:10:00.000Z'
+    imageUrl: 'https://picsum.photos/seed/iphone15/900/700',
+    createdAt: '2026-04-18T08:10:00.000Z',
+    description: 'Телефон в идеальном состоянии. Куплен 2 месяца назад. Все коробки, зарядки в комплекте.'
   },
   {
     id: 'demo-2',
-    title: 'MacBook Air M2, 16/512',
+    title: 'MacBook Air M2, 16/512 GB',
     category: 'Электроника',
-    price: 98000,
+    price: 145000,
     userName: 'Руслан',
     createdBy: 'demo-user-2',
-    imageUrl: 'https://picsum.photos/seed/market-2/900/700',
-    createdAt: '2026-04-17T15:30:00.000Z'
+    imageUrl: 'https://picsum.photos/seed/macbook/900/700',
+    createdAt: '2026-04-17T15:30:00.000Z',
+    description: 'Мощный ноутбук для работы и творчества. Батарея держит 12+ часов.'
   },
   {
     id: 'demo-3',
-    title: 'Nike Air Force 1, размер 42',
-    category: 'Одежда',
-    price: 6200,
-    userName: 'Айжан',
-    createdBy: 'demo-user-3',
-    imageUrl: 'https://picsum.photos/seed/market-3/900/700',
-    createdAt: '2026-04-16T11:05:00.000Z'
+    title: 'Samsung Galaxy S24 Ultra',
+    category: 'Электроника',
+    price: 95000,
+    userName: 'Азиз',
+    createdBy: 'demo-user-20',
+    imageUrl: 'https://picsum.photos/seed/samsung/900/700',
+    createdAt: '2026-04-16T14:20:00.000Z',
+    description: 'Флагманский смартфон с отличной камерой и дисплеем. Чехол + стекло в подарок.'
   },
   {
     id: 'demo-4',
-    title: 'Toyota Camry 55, 2018',
-    category: 'Авто',
-    price: 1820000,
-    userName: 'Нурбек',
-    createdBy: 'demo-user-4',
-    imageUrl: 'https://picsum.photos/seed/market-4/900/700',
-    createdAt: '2026-04-15T13:22:00.000Z'
+    title: 'iPad Pro 12.9", M2, 256GB',
+    category: 'Электроника',
+    price: 52000,
+    userName: 'Юлия',
+    createdBy: 'demo-user-21',
+    imageUrl: 'https://picsum.photos/seed/ipad/900/700',
+    createdAt: '2026-04-15T10:00:00.000Z',
+    description: 'Планшет для дизайна, видео и работы. Apple Pencil в комплекте.'
   },
   {
     id: 'demo-5',
-    title: 'Игровой монитор 27 дюймов 165Hz',
+    title: 'PlayStation 5 + 3 игры',
     category: 'Электроника',
-    price: 19500,
-    userName: 'Дамир',
-    createdBy: 'demo-user-5',
-    imageUrl: 'https://picsum.photos/seed/market-5/900/700',
-    createdAt: '2026-04-14T10:55:00.000Z'
+    price: 68000,
+    userName: 'Тимур',
+    createdBy: 'demo-user-9',
+    imageUrl: 'https://picsum.photos/seed/playstation/900/700',
+    createdAt: '2026-04-14T17:33:00.000Z',
+    description: 'Консоль в идеале. Приходят: Hogwarts Legacy, FIFA 24, Call of Duty.'
   },
   {
     id: 'demo-6',
-    title: 'Кожаная куртка, новая',
-    category: 'Одежда',
-    price: 8900,
-    userName: 'Сезим',
-    createdBy: 'demo-user-6',
-    imageUrl: 'https://picsum.photos/seed/market-6/900/700',
-    createdAt: '2026-04-13T09:40:00.000Z'
+    title: 'Игровой монитор 27 дюймов 165Hz ASUS',
+    category: 'Электроника',
+    price: 24500,
+    userName: 'Дамир',
+    createdBy: 'demo-user-5',
+    imageUrl: 'https://picsum.photos/seed/monitor/900/700',
+    createdAt: '2026-04-13T10:55:00.000Z',
+    description: '1440p, HDR, 165Hz. Идеален для киберспорта и дизайна.'
   },
   {
     id: 'demo-7',
-    title: 'Hyundai Tucson 2020, AWD',
-    category: 'Авто',
-    price: 2140000,
-    userName: 'Бек',
-    createdBy: 'demo-user-7',
-    imageUrl: 'https://picsum.photos/seed/market-7/900/700',
-    createdAt: '2026-04-12T16:00:00.000Z'
+    title: 'Наушники Sony WH-1000XM5',
+    category: 'Электроника',
+    price: 38000,
+    userName: 'Камиля',
+    createdBy: 'demo-user-22',
+    imageUrl: 'https://picsum.photos/seed/headphones/900/700',
+    createdAt: '2026-04-12T12:30:00.000Z',
+    description: 'Лучшие в классе. Шумоподавление, батарея 40 часов.'
   },
   {
     id: 'demo-8',
-    title: 'Диван-трансформер 3-местный',
-    category: 'Другое',
+    title: 'Apple Watch Series 9, 45mm',
+    category: 'Электроника',
     price: 28000,
-    userName: 'Елена',
-    createdBy: 'demo-user-8',
-    imageUrl: 'https://picsum.photos/seed/market-8/900/700',
-    createdAt: '2026-04-11T12:15:00.000Z'
+    userName: 'Медина',
+    createdBy: 'demo-user-10',
+    imageUrl: 'https://picsum.photos/seed/applewatch/900/700',
+    createdAt: '2026-04-11T14:05:00.000Z',
+    description: 'Умные часы с ЭКГ, пульсоксиметром, отличным дисплеем.'
   },
   {
     id: 'demo-9',
-    title: 'PlayStation 5 + 2 геймпада',
+    title: 'GoPro Hero 12 Black',
     category: 'Электроника',
-    price: 52000,
-    userName: 'Тимур',
-    createdBy: 'demo-user-9',
-    imageUrl: 'https://picsum.photos/seed/market-9/900/700',
-    createdAt: '2026-04-10T17:33:00.000Z'
+    price: 35000,
+    userName: 'Нариман',
+    createdBy: 'demo-user-23',
+    imageUrl: 'https://picsum.photos/seed/gopro/900/700',
+    createdAt: '2026-04-10T08:45:00.000Z',
+    description: '5K видео, водонепроницаемая, много аксессуаров в комплекте.'
   },
   {
     id: 'demo-10',
-    title: 'Смарт-часы Garmin Venu 2',
+    title: 'Графический планшет Wacom Pro',
     category: 'Электроника',
-    price: 14500,
-    userName: 'Медина',
-    createdBy: 'demo-user-10',
-    imageUrl: 'https://picsum.photos/seed/market-10/900/700',
-    createdAt: '2026-04-09T14:05:00.000Z'
+    price: 18000,
+    userName: 'Гульнара',
+    createdBy: 'demo-user-24',
+    imageUrl: 'https://picsum.photos/seed/wacom/900/700',
+    createdAt: '2026-04-09T11:20:00.000Z',
+    description: 'Профессиональный инструмент для дизайнеров и художников.'
   },
+
+  // Одежда
   {
     id: 'demo-11',
-    title: 'Горный велосипед Trek',
-    category: 'Другое',
-    price: 38000,
-    userName: 'Арсен',
-    createdBy: 'demo-user-11',
-    imageUrl: 'https://picsum.photos/seed/market-11/900/700',
-    createdAt: '2026-04-08T10:20:00.000Z'
+    title: 'Nike Air Force 1 Low, размер 42, белые',
+    category: 'Одежда',
+    price: 8500,
+    userName: 'Айжан',
+    createdBy: 'demo-user-3',
+    imageUrl: 'https://picsum.photos/seed/nike-shoes/900/700',
+    createdAt: '2026-04-18T11:05:00.000Z',
+    description: 'Культовые кроссовки. Оригинальные, как новые.'
   },
   {
     id: 'demo-12',
-    title: 'Платье вечернее, размер M',
+    title: 'Премиум кожаная куртка, размер L',
     category: 'Одежда',
-    price: 4500,
+    price: 15000,
+    userName: 'Сезим',
+    createdBy: 'demo-user-6',
+    imageUrl: 'https://picsum.photos/seed/leather-jacket/900/700',
+    createdAt: '2026-04-17T09:40:00.000Z',
+    description: 'Итальянская кожа, элегантный дизайн, как новая.'
+  },
+  {
+    id: 'demo-13',
+    title: 'Платье вечернее Trendyol, размер S',
+    category: 'Одежда',
+    price: 6500,
     userName: 'Диана',
     createdBy: 'demo-user-12',
-    imageUrl: 'https://picsum.photos/seed/market-12/900/700',
-    createdAt: '2026-04-07T18:12:00.000Z'
+    imageUrl: 'https://picsum.photos/seed/dress/900/700',
+    createdAt: '2026-04-16T18:12:00.000Z',
+    description: 'Для коктейльных мероприятий. Черное, с блеском.'
+  },
+  {
+    id: 'demo-14',
+    title: 'Спортивный костюм Adidas, серый, M',
+    category: 'Одежда',
+    price: 5200,
+    userName: 'Чынара',
+    createdBy: 'demo-user-25',
+    imageUrl: 'https://picsum.photos/seed/adidas-suit/900/700',
+    createdAt: '2026-04-15T10:30:00.000Z',
+    description: 'Оригинальный спорт костюм. Комфортный и стильный.'
+  },
+  {
+    id: 'demo-15',
+    title: 'Зимняя куртка The North Face, размер M',
+    category: 'Одежда',
+    price: 12000,
+    userName: 'Эльмира',
+    createdBy: 'demo-user-26',
+    imageUrl: 'https://picsum.photos/seed/winter-jacket/900/700',
+    createdAt: '2026-04-14T14:15:00.000Z',
+    description: 'Водонепроницаемая, утеплённая, на все сезоны.'
+  },
+  {
+    id: 'demo-16',
+    title: 'Джинсы Levis 501, размер 32/32',
+    category: 'Одежда',
+    price: 4800,
+    userName: 'Нурдин',
+    createdBy: 'demo-user-27',
+    imageUrl: 'https://picsum.photos/seed/jeans/900/700',
+    createdAt: '2026-04-13T09:20:00.000Z',
+    description: 'Классические джинсы, оригинальные, как новые.'
+  },
+
+  // Авто
+  {
+    id: 'demo-17',
+    title: 'Toyota Camry 2019, 2.5L, автомат',
+    category: 'Авто',
+    price: 1950000,
+    userName: 'Нурбек',
+    createdBy: 'demo-user-4',
+    imageUrl: 'https://picsum.photos/seed/toyota-camry/900/700',
+    createdAt: '2026-04-12T13:22:00.000Z',
+    description: 'В идеальном состоянии. Один хозяин, ухоженный. Все сервисы.'
+  },
+  {
+    id: 'demo-18',
+    title: 'Hyundai Tucson 2021, AWD, белый',
+    category: 'Авто',
+    price: 2280000,
+    userName: 'Бек',
+    createdBy: 'demo-user-7',
+    imageUrl: 'https://picsum.photos/seed/hyundai-tucson/900/700',
+    createdAt: '2026-04-11T16:00:00.000Z',
+    description: 'Кроссовер. Полный привод, крузконтроль, панорамная крыша.'
+  },
+  {
+    id: 'demo-19',
+    title: 'Chevrolet Spark 2020, черный, хэтчбек',
+    category: 'Авто',
+    price: 890000,
+    userName: 'Раиль',
+    createdBy: 'demo-user-28',
+    imageUrl: 'https://picsum.photos/seed/chevrolet-spark/900/700',
+    createdAt: '2026-04-10T08:30:00.000Z',
+    description: 'Компактный, экономичный, идеален для города.'
+  },
+  {
+    id: 'demo-20',
+    title: 'BMW X3 2018, чёрный, полный привод',
+    category: 'Авто',
+    price: 3500000,
+    userName: 'Болот',
+    createdBy: 'demo-user-29',
+    imageUrl: 'https://picsum.photos/seed/bmw-x3/900/700',
+    createdAt: '2026-04-09T12:45:00.000Z',
+    description: 'Премиум кроссовер, все опции, кожаный салон, панорама.'
+  },
+
+  // Мебель/Дом
+  {
+    id: 'demo-21',
+    title: 'Диван-трансформер 3-местный, серый',
+    category: 'Мебель',
+    price: 42000,
+    userName: 'Елена',
+    createdBy: 'demo-user-8',
+    imageUrl: 'https://picsum.photos/seed/sofa/900/700',
+    createdAt: '2026-04-18T12:15:00.000Z',
+    description: 'Раскладной, удобный, ортопедический матрас.'
+  },
+  {
+    id: 'demo-22',
+    title: 'Письменный стол из дуба 160x80',
+    category: 'Мебель',
+    price: 18000,
+    userName: 'Ерлан',
+    createdBy: 'demo-user-30',
+    imageUrl: 'https://picsum.photos/seed/desk/900/700',
+    createdAt: '2026-04-17T10:00:00.000Z',
+    description: 'Качественная мебель для кабинета или спальни.'
+  },
+  {
+    id: 'demo-23',
+    title: 'Шкаф-купе 220x60x210 см, белый',
+    category: 'Мебель',
+    price: 35000,
+    userName: 'Майра',
+    createdBy: 'demo-user-31',
+    imageUrl: 'https://picsum.photos/seed/wardrobe/900/700',
+    createdAt: '2026-04-16T14:30:00.000Z',
+    description: 'Зеркальные дверцы, вместительный, современный дизайн.'
+  },
+  {
+    id: 'demo-24',
+    title: 'Кровать 2-сп. 180x200 с матрасом',
+    category: 'Мебель',
+    price: 28000,
+    userName: 'Сулайман',
+    createdBy: 'demo-user-32',
+    imageUrl: 'https://picsum.photos/seed/bed/900/700',
+    createdAt: '2026-04-15T11:45:00.000Z',
+    description: 'Ортопедический матрас, деревянное основание, как новая.'
+  },
+
+  // Спорт
+  {
+    id: 'demo-25',
+    title: 'Горный велосипед Trek 2024',
+    category: 'Спорт',
+    price: 48000,
+    userName: 'Арсен',
+    createdBy: 'demo-user-11',
+    imageUrl: 'https://picsum.photos/seed/bike/900/700',
+    createdAt: '2026-04-14T10:20:00.000Z',
+    description: 'Профессиональный велик. Алюминиевая рама, 21 скорость.'
+  },
+  {
+    id: 'demo-26',
+    title: 'Электросамокат Xiaomi Pro 2',
+    category: 'Спорт',
+    price: 19000,
+    userName: 'Карина',
+    createdBy: 'demo-user-33',
+    imageUrl: 'https://picsum.photos/seed/scooter/900/700',
+    createdAt: '2026-04-13T15:10:00.000Z',
+    description: 'Мощный, до 40 км/ч, батарея 30 км пути.'
+  },
+  {
+    id: 'demo-27',
+    title: 'Беговая дорожка Horizon Fitness',
+    category: 'Спорт',
+    price: 32000,
+    userName: 'Олег',
+    createdBy: 'demo-user-34',
+    imageUrl: 'https://picsum.photos/seed/treadmill/900/700',
+    createdAt: '2026-04-12T09:30:00.000Z',
+    description: 'Домашний фитнес. Электрическая, с дисплеем, складная.'
+  },
+  {
+    id: 'demo-28',
+    title: 'Гироскутер Xiaomi Mi 3, чёрный',
+    category: 'Спорт',
+    price: 12000,
+    userName: 'Марина',
+    createdBy: 'demo-user-35',
+    imageUrl: 'https://picsum.photos/seed/hoverboard/900/700',
+    createdAt: '2026-04-11T13:20:00.000Z',
+    description: 'Компактный, лёгкий, батарея на день. Отлично работает.'
+  },
+
+  // Книги/Образование
+  {
+    id: 'demo-29',
+    title: 'Курс веб-разработки на React (видео)',
+    category: 'Образование',
+    price: 4500,
+    userName: 'Тимофей',
+    createdBy: 'demo-user-36',
+    imageUrl: 'https://picsum.photos/seed/course/900/700',
+    createdAt: '2026-04-10T10:15:00.000Z',
+    description: 'Полный курс на русском. 40+ часов видео, проекты, сертификат.'
+  },
+  {
+    id: 'demo-30',
+    title: 'Английский язык: Complete Set (книги)',
+    category: 'Образование',
+    price: 3800,
+    userName: 'Виктория',
+    createdBy: 'demo-user-37',
+    imageUrl: 'https://picsum.photos/seed/books/900/700',
+    createdAt: '2026-04-09T16:40:00.000Z',
+    description: 'Oxford English Grammar, словарь, тесты. Состояние отличное.'
+  },
+
+  // Разное
+  {
+    id: 'demo-31',
+    title: 'Кофе-машина Delonghi, полностью функциональна',
+    category: 'Посуда',
+    price: 22000,
+    userName: 'Валентина',
+    createdBy: 'demo-user-38',
+    imageUrl: 'https://picsum.photos/seed/coffee-machine/900/700',
+    createdAt: '2026-04-18T14:25:00.000Z',
+    description: 'Автоматическая, делает капучино и эспрессо. Давно не используется.'
+  },
+  {
+    id: 'demo-32',
+    title: 'Холодильник Samsung RF511, двухкамерный',
+    category: 'Посуда',
+    price: 48000,
+    userName: 'Давид',
+    createdBy: 'demo-user-39',
+    imageUrl: 'https://picsum.photos/seed/refrigerator/900/700',
+    createdAt: '2026-04-17T11:50:00.000Z',
+    description: 'Работает идеально, NoFrost, энергосберегающий.'
+  },
+  {
+    id: 'demo-33',
+    title: 'Кондиционер LG 18000 BTU',
+    category: 'Посуда',
+    price: 32000,
+    userName: 'Надия',
+    createdBy: 'demo-user-40',
+    imageUrl: 'https://picsum.photos/seed/ac/900/700',
+    createdAt: '2026-04-16T08:15:00.000Z',
+    description: 'Инверторный, очень тихий, с пультом.'
+  },
+  {
+    id: 'demo-34',
+    title: 'Посудомоечная машина Bosch SMS60L00',
+    category: 'Посуда',
+    price: 28000,
+    userName: 'Артур',
+    createdBy: 'demo-user-41',
+    imageUrl: 'https://picsum.photos/seed/dishwasher/900/700',
+    createdAt: '2026-04-15T13:35:00.000Z',
+    description: 'Встраиваемая, энергокласс A, программ много.'
+  },
+  {
+    id: 'demo-35',
+    title: 'Телевизор LG OLED 65 дюймов 4K',
+    category: 'Электроника',
+    price: 68000,
+    userName: 'Киндир',
+    createdBy: 'demo-user-42',
+    imageUrl: 'https://picsum.photos/seed/tv/900/700',
+    createdAt: '2026-04-14T15:20:00.000Z',
+    description: 'Премиум OLED экран, Dolby Vision, как новый.'
   }
 ];
 
@@ -660,6 +938,16 @@ function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [sortOrder, setSortOrder] = useState('newest');
   const [showMine, setShowMine] = useState(false);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(5000000);
+  const [favorites, setFavorites] = useState(() => {
+    try {
+      const saved = localStorage.getItem('marketplace-favorites');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [highlightEnabled, setHighlightEnabled] = useState(false);
   const [highlightStyle, setHighlightStyle] = useState(
     () => localStorage.getItem('marketplace-highlight-style') || 'blue'
@@ -690,6 +978,10 @@ function AppContent() {
   useEffect(() => {
     localStorage.setItem('marketplace-locale', locale);
   }, [locale]);
+
+  useEffect(() => {
+    localStorage.setItem('marketplace-favorites', JSON.stringify(favorites));
+  }, [favorites]);
 
   useEffect(() => {
     localStorage.setItem('marketplace-highlight-style', highlightStyle);
@@ -806,6 +1098,12 @@ function AppContent() {
       filtered = filtered.filter((ad) => ad.category === selectedCategory);
     }
 
+    // Фильтрация по цене
+    filtered = filtered.filter((ad) => {
+      const price = Number(ad.price) || 0;
+      return price >= minPrice && price <= maxPrice;
+    });
+
     if (sortOrder) {
       filtered = filtered.sort((a, b) => {
         const priceA = Number(a.price) || 0;
@@ -821,7 +1119,7 @@ function AppContent() {
     }
 
     return filtered;
-  }, [adsToShow, showMine, user, searchValue, selectedCategory, sortOrder]);
+  }, [adsToShow, showMine, user, searchValue, selectedCategory, sortOrder, minPrice, maxPrice]);
 
   const myAds = adsToShow.filter((ad) => ad.createdBy === user?.uid);
 
@@ -956,6 +1254,18 @@ function AppContent() {
       setAuthLoading(false);
     }
   };
+
+  const toggleFavorite = (adId) => {
+    setFavorites((prev) => {
+      if (prev.includes(adId)) {
+        return prev.filter((id) => id !== adId);
+      } else {
+        return [...prev, adId];
+      }
+    });
+  };
+
+  const isFavorite = (adId) => favorites.includes(adId);
 
   const handleDelete = async (adId) => {
     if (!isFirebaseReady) {
@@ -1199,6 +1509,8 @@ function AppContent() {
                   onSignOut={handleSignOut}
                   isAdmin={isAdmin}
                   firebaseReady={isFirebaseReady}
+                  userAdsCount={myAds.length}
+                  userFavoritesCount={favorites.length}
                 />
               }
             />
@@ -1216,6 +1528,12 @@ function AppContent() {
                   onSortChange={setSortOrder}
                   showMine={showMine}
                   onShowMineChange={setShowMine}
+                  minPrice={minPrice}
+                  onMinPriceChange={setMinPrice}
+                  maxPrice={maxPrice}
+                  onMaxPriceChange={setMaxPrice}
+                  onFavoriteToggle={toggleFavorite}
+                  isFavorite={isFavorite}
                   user={user}
                   loading={effectiveLoading}
                   error={error}

@@ -32,6 +32,7 @@
   cursor: crosshair;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.36);
   display: block;
+  pointer-events: auto;
 }
 
 .cwp-slider {
@@ -41,6 +42,7 @@
   cursor: ew-resize;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
   display: block;
+  pointer-events: auto;
 }
 
 .cwp-preview {
@@ -56,4 +58,5 @@
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
   letter-spacing: 0.1em;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+  pointer-events: auto;
 }

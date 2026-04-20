@@ -66,6 +66,12 @@ export default function AuthBar({
     else if (editingIndex !== null && editingIndex > idx) setEditingIndex(editingIndex - 1);
   };
 
+  const handleCloseWheel = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setWheelOpen(false);
+  };
+
   return (
     <div className="auth-bar">
       <div className="toolbar-stack">
@@ -151,7 +157,8 @@ export default function AuthBar({
               <button
                 type="button"
                 className="hl-wheel-close"
-                onClick={() => setWheelOpen(false)}
+                onMouseDown={handleCloseWheel}
+                onClick={handleCloseWheel}
                 aria-label="Close color picker"
                 title="Close"
               >

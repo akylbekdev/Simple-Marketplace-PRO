@@ -21,6 +21,8 @@ export default function ProfilePage({
   onSignOut,
   isAdmin,
   firebaseReady,
+  userAdsCount = 0,
+  userFavoritesCount = 0,
 }) {
   const [authMode, setAuthMode] = useState('login');
   const [name, setName] = useState('');
@@ -83,6 +85,33 @@ export default function ProfilePage({
             )}
           </div>
         </div>
+
+        {/* User Statistics */}
+        {!isAnonymous && !showAuthForm && (
+          <div className="profile-stats-card">
+            <div className="profile-stat-item">
+              <div className="profile-stat-icon">📢</div>
+              <div className="profile-stat-content">
+                <div className="profile-stat-label">Мои объявления</div>
+                <div className="profile-stat-value">{userAdsCount}</div>
+              </div>
+            </div>
+            <div className="profile-stat-item">
+              <div className="profile-stat-icon">❤️</div>
+              <div className="profile-stat-content">
+                <div className="profile-stat-label">Избранные</div>
+                <div className="profile-stat-value">{userFavoritesCount}</div>
+              </div>
+            </div>
+            <div className="profile-stat-item">
+              <div className="profile-stat-icon">⭐</div>
+              <div className="profile-stat-content">
+                <div className="profile-stat-label">Рейтинг</div>
+                <div className="profile-stat-value">5.0</div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Feedback messages */}
         {error && <div className="profile-error">{error}</div>}

@@ -344,8 +344,65 @@
   color: var(--muted);
 }
 
+/* ─── Stats card ─── */
+.profile-stats-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.profile-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--surface-soft);
+  border-radius: 14px;
+  transition: all 0.3s ease;
+}
+
+.profile-stat-item:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.profile-stat-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.profile-stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-stat-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.profile-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 600px) {
+  .profile-stats-card {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .profile-form {
     grid-template-columns: 1fr;
   }

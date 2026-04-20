@@ -1,33 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/AdCard.css';
 
 export default function AdCard({ ad, onDelete, onFavoriteToggle, isFavorite, loading, isOwner, isAdmin, t }) {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [shouldLoadImage, setShouldLoadImage] = useState(false);
-  const imageRef = useRef(null);
+  const [imageError, setImageError] = useState(false);
   const localeCode = t.locale === 'en' ? 'en-US' : t.locale === 'kr' ? 'ko-KR' : 'ru-RU';
+  const effectiveImageUrl = ad.imageUrl || '';
 
-  // Lazy loading with Intersection Observer
   useEffect(() => {
-    if (!imageRef.current) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setShouldLoadImage(true);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { rootMargin: '50px' });
-
-    observer.observe(imageRef.current);
-
-    return () => {
-      if (imageRef.current) {
-        observer.unobserve(imageRef.current);
-      }
-    };
-  }, []);
+    setImageLoaded(false);
+    setImageError(false);
+  }, [effectiveImageUrl]);
 
   const formatDate = (timestamp) => {
     if (!timestamp) return t.dateUnknown;
@@ -55,32 +38,25 @@ export default function AdCard({ ad, onDelete, onFavoriteToggle, isFavorite, loa
 
   return (
     <article className="ad-card">
-      {ad.imageUrl ? (
-        <div className="ad-image-wrapper" ref={imageRef}>
-          {shouldLoadImage ? (
-            <>
-              <img 
-                src={ad.imageUrl} 
-                alt={ad.title} 
-                className={`ad-image ${imageLoaded ? 'loaded' : ''}`}
-                onLoad={() => setImageLoaded(true)}
-                loading="lazy"
-              />
-              {onFavoriteToggle && (
-                <button
-                  className={`favorite-btn ${isFavorite ? 'active' : ''}`}
-                  onClick={handleFavoriteClick}
-                  title={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
-                  aria-label="Избранное"
-                >
-                  {isFavorite ? '❤️' : '🤍'}
-                </button>
-              )}
-            </>
-          ) : (
-            <div className="ad-image-skeleton">
-              <div className="skeleton-shimmer"></div>
-            </div>
+      {effectiveImageUrl && !imageError ? (
+        <div className="ad-image-wrapper">
+          <img
+            src={effectiveImageUrl}
+            alt={ad.title}
+            className={`ad-image ${imageLoaded ? 'loaded' : ''}`}
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setImageError(true)}
+            loading="lazy"
+          />
+          {onFavoriteToggle && (
+            <button
+              className={`favorite-btn ${isFavorite ? 'active' : ''}`}
+              onClick={handleFavoriteClick}
+              title={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
+              aria-label="Избранное"
+            >
+              {isFavorite ? '❤️' : '🤍'}
+            </button>
           )}
         </div>
       ) : (

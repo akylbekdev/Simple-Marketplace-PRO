@@ -10,15 +10,22 @@
 }
 
 .sidebar-toggle {
+  display: none;
   position: absolute;
   right: -46px;
   top: 20px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  padding: 0;
   border: none;
   background: linear-gradient(135deg, var(--primary), var(--primary-strong));
   color: #ffffff;
+  font-weight: 900;
+  font-size: 1.35rem;
+  line-height: 1;
   cursor: pointer;
   box-shadow: 0 10px 24px rgba(79, 70, 229, 0.3);
   transition: all 0.2s ease;
@@ -47,6 +54,10 @@
 
 .sidebar-wrapper:hover .sidebar {
   transform: translateX(0);
+}
+
+.sidebar-backdrop {
+  display: none;
 }
 
 .sidebar-nav {
@@ -100,22 +111,82 @@
 }
 
 @media (max-width: 768px) {
+  .sidebar-wrapper {
+    width: 0;
+    height: 0;
+  }
+
+  .sidebar-toggle {
+    display: inline-flex;
+    position: fixed;
+    left: 12px;
+    top: 14px;
+    z-index: 90;
+    right: auto;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    font-size: 1.5rem;
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.38);
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    border: none;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.24s ease;
+    z-index: 80;
+  }
+
   .sidebar {
-    width: 100%;
-    height: auto;
-    position: static;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
+    width: min(300px, 84vw);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-right: 1px solid var(--border);
+    border-bottom: none;
+    transform: translateX(-105%);
+    z-index: 85;
+    padding: 4.5rem 1rem 1.4rem;
+  }
+
+  .sidebar-wrapper:hover .sidebar {
+    transform: translateX(-105%);
+  }
+
+  .sidebar-wrapper.is-mobile-open .sidebar,
+  .sidebar-wrapper.is-mobile-open:hover .sidebar {
+    transform: translateX(0);
+  }
+
+  .sidebar-wrapper.is-mobile-open .sidebar-backdrop {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .sidebar-nav {
-    flex-direction: row;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
+    flex-direction: column;
+    overflow-x: visible;
+    overflow-y: auto;
+    padding-bottom: 0;
+    gap: 0.35rem;
   }
 
   .sidebar-link {
-    flex-shrink: 0;
-    white-space: nowrap;
+    flex-shrink: 1;
+    white-space: normal;
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    border-radius: 14px;
+  }
+
+  .sidebar-footer {
+    padding-top: 0.75rem;
   }
 }

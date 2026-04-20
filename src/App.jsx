@@ -36,6 +36,8 @@ const LANGUAGE_NAMES = {
 };
 
 const HERO_ACTION_KEYS = ['browse', 'sell', 'profile', 'google'];
+const LOCAL_ADS_STORAGE_KEY = 'marketplace-local-ads';
+const HIDDEN_AD_IDS_STORAGE_KEY = 'marketplace-hidden-ad-ids';
 
 const DEMO_ADS = [
   // Электроника - Premium
@@ -442,7 +444,7 @@ const translations = {
   ru: {
     appTitle: 'Simple Marketplace PRO',
     eyebrow: 'Твой маркетплейс на Firebase',
-    homeHeadline: 'Маркетплейс для покупки и продажи товаров',
+    homeHeadline: 'Simple Market Place',
     tagline: 'Быстрый, современный и безопасный маркетплейс с Firebase Auth, Storage и реальным обновлением объявлений.',
     homeAbout: 'Проект Pablonik: удобная площадка, где можно быстро найти нужный товар или разместить свое объявление за пару минут.',
     homeCtaStart: 'Начать',
@@ -557,6 +559,7 @@ const translations = {
     selectLanguage: 'Язык',
     highlightLabel: 'Подсветка',
     highlightStyleLabel: 'Выбрать стиль подсветки',
+    highlightThicknessLabel: 'Толщина подсветки',
     customHighlightLabel: 'Радужный круг',
     languageButton: 'EN',
     highlightOn: 'Подсветка включена',
@@ -603,7 +606,7 @@ const translations = {
   en: {
     appTitle: 'Simple Marketplace PRO',
     eyebrow: 'Your Firebase marketplace',
-    homeHeadline: 'Marketplace for buying and selling goods',
+    homeHeadline: 'Simple Market Place',
     tagline: 'Fast, modern and secure marketplace with Firebase Auth, Storage and real-time updates.',
     homeAbout: 'Pablonik project: a practical place to discover products quickly and publish your own listings in minutes.',
     homeCtaStart: 'Start now',
@@ -718,6 +721,7 @@ const translations = {
     selectLanguage: 'Language',
     highlightLabel: 'Highlight',
     highlightStyleLabel: 'Choose highlight style',
+    highlightThicknessLabel: 'Highlight thickness',
     customHighlightLabel: 'Rainbow ring',
     languageButton: 'RU',
     highlightOn: 'Highlight on',
@@ -764,7 +768,7 @@ const translations = {
   ky: {
     appTitle: 'Simple Marketplace PRO',
     eyebrow: 'Firebase базасындагы маркетплейс',
-    homeHeadline: 'Товар сатып алуу жана сатуу үчүн маркетплейс',
+    homeHeadline: 'Simple Market Place',
     tagline: 'Firebase Auth, Storage жана реалдуу убакыт жаңыртуулар менен ылдам, заманбап жана коопсуз маркетплейс.',
     homeAbout: 'Pablonik долбоору: керектүү товарды бат табууга жана өз жарыяңызды бир нече мүнөттө жайгаштырууга ыңгайлуу аянтча.',
     homeCtaStart: 'Баштоо',
@@ -879,6 +883,7 @@ const translations = {
     selectLanguage: 'Тил',
     highlightLabel: 'Жарык',
     highlightStyleLabel: 'Жарык стилин тандаңыз',
+    highlightThicknessLabel: 'Жарыктын калыңдыгы',
     customHighlightLabel: 'Радуга',
     highlightOn: 'Жарыкты күйгүзүү',
     highlightOff: 'Жарыкты өчүрүү',
@@ -926,6 +931,23 @@ const translations = {
 
 function AppContent() {
   const [ads, setAds] = useState([]);
+  const [adImagePreviewOverrides, setAdImagePreviewOverrides] = useState({});
+  const [localAds, setLocalAds] = useState(() => {
+    try {
+      const saved = localStorage.getItem(LOCAL_ADS_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [hiddenAdIds, setHiddenAdIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem(HIDDEN_AD_IDS_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [authLoading, setAuthLoading] = useState(true);
@@ -962,12 +984,28 @@ function AppContent() {
     }
     return [localStorage.getItem('marketplace-highlight-color') || '#3b82f6'];
   });
+  const [highlightThickness, setHighlightThickness] = useState(() => {
+    const saved = Number(localStorage.getItem('marketplace-highlight-thickness') || '3');
+    if (!Number.isFinite(saved)) {
+      return 3;
+    }
+    return Math.min(20, Math.max(1, Math.round(saved)));
+  });
   const [logoZoom, setLogoZoom] = useState(false);
 
   const t = translations[locale] || translations.ru;
   const isAdmin = user?.email ? ADMIN_EMAILS.includes(user.email.toLowerCase()) : false;
-  const usingDemoAds = ads.length === 0;
-  const adsToShow = usingDemoAds ? DEMO_ADS : ads;
+  const remoteAds = ads
+    .filter((ad) => !hiddenAdIds.includes(ad.id))
+    .map((ad) => {
+      if (!ad.imageUrl && adImagePreviewOverrides[ad.id]) {
+        return { ...ad, imageUrl: adImagePreviewOverrides[ad.id] };
+      }
+      return ad;
+    });
+  const mergedAds = [...localAds, ...remoteAds.filter((ad) => !localAds.some((localAd) => localAd.id === ad.id))];
+  const usingDemoAds = !isFirebaseReady && mergedAds.length === 0;
+  const adsToShow = usingDemoAds ? DEMO_ADS : mergedAds;
   const effectiveLoading = loading && !usingDemoAds;
 
   useEffect(() => {
@@ -984,6 +1022,31 @@ function AppContent() {
   }, [favorites]);
 
   useEffect(() => {
+    localStorage.setItem(LOCAL_ADS_STORAGE_KEY, JSON.stringify(localAds));
+  }, [localAds]);
+
+  useEffect(() => {
+    localStorage.setItem(HIDDEN_AD_IDS_STORAGE_KEY, JSON.stringify(hiddenAdIds));
+  }, [hiddenAdIds]);
+
+  useEffect(() => {
+    // Drop temporary preview overrides once the real image URL is present in Firestore data.
+    setAdImagePreviewOverrides((prev) => {
+      let changed = false;
+      const next = { ...prev };
+
+      ads.forEach((ad) => {
+        if (ad.imageUrl && next[ad.id]) {
+          delete next[ad.id];
+          changed = true;
+        }
+      });
+
+      return changed ? next : prev;
+    });
+  }, [ads]);
+
+  useEffect(() => {
     localStorage.setItem('marketplace-highlight-style', highlightStyle);
   }, [highlightStyle]);
 
@@ -995,6 +1058,11 @@ function AppContent() {
   useEffect(() => {
     document.documentElement.dataset.highlightStyle = highlightStyle;
   }, [highlightStyle]);
+
+  useEffect(() => {
+    localStorage.setItem('marketplace-highlight-thickness', String(highlightThickness));
+    document.documentElement.style.setProperty('--highlight-thickness', `${highlightThickness}px`);
+  }, [highlightThickness]);
 
   useEffect(() => {
     localStorage.setItem('marketplace-highlight-colors', JSON.stringify(highlightColors));
@@ -1268,20 +1336,84 @@ function AppContent() {
   const isFavorite = (adId) => favorites.includes(adId);
 
   const handleDelete = async (adId) => {
+    if (localAds.some((ad) => ad.id === adId)) {
+      setLocalAds((prev) => prev.filter((ad) => ad.id !== adId));
+      setAdImagePreviewOverrides((prev) => {
+        if (!prev[adId]) return prev;
+        const next = { ...prev };
+        delete next[adId];
+        return next;
+      });
+      return;
+    }
+
     if (!isFirebaseReady) {
       return;
     }
 
+    const previousAds = ads;
+    setAds((prev) => prev.filter((ad) => ad.id !== adId));
+
     try {
       await deleteDoc(doc(db, 'ads', adId));
+      setError('');
+      setAdImagePreviewOverrides((prev) => {
+        if (!prev[adId]) return prev;
+        const next = { ...prev };
+        delete next[adId];
+        return next;
+      });
     } catch (err) {
+      if (String(err?.code || '').includes('permission-denied')) {
+        setHiddenAdIds((prev) => (prev.includes(adId) ? prev : [...prev, adId]));
+        setAdImagePreviewOverrides((prev) => {
+          if (!prev[adId]) return prev;
+          const next = { ...prev };
+          delete next[adId];
+          return next;
+        });
+        setError('');
+        return;
+      }
+
+      setAds(previousAds);
       console.error('Ошибка при удалении объявления:', err);
       setError(err.message || t.delete);
+      throw err;
     }
   };
 
-  const handleAdAdded = () => {
-    // Ad added successfully, real-time update will handle the UI
+  const handleAdAdded = (newAd) => {
+    if (!newAd?.id) {
+      return;
+    }
+
+    if (newAd.localOnly) {
+      setLocalAds((prev) => {
+        const withoutDuplicate = prev.filter((ad) => ad.id !== newAd.id);
+        return [newAd, ...withoutDuplicate];
+      });
+      return;
+    }
+
+    if (typeof newAd.imageUrl === 'string' && newAd.imageUrl.startsWith('data:')) {
+      setAdImagePreviewOverrides((prev) => ({
+        ...prev,
+        [newAd.id]: newAd.imageUrl
+      }));
+    } else if (newAd.imageUrl) {
+      setAdImagePreviewOverrides((prev) => {
+        if (!prev[newAd.id]) return prev;
+        const next = { ...prev };
+        delete next[newAd.id];
+        return next;
+      });
+    }
+
+    setAds((prev) => {
+      const withoutDuplicate = prev.filter((ad) => ad.id !== newAd.id);
+      return [newAd, ...withoutDuplicate];
+    });
   };
 
   const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -1350,6 +1482,16 @@ function AppContent() {
     setHighlightEnabled(style !== 'off');
   };
 
+  const handleSetHighlightThickness = (thickness) => {
+    const parsed = Number(thickness);
+    if (!Number.isFinite(parsed)) {
+      return;
+    }
+    const normalized = Math.min(20, Math.max(1, Math.round(parsed)));
+    setHighlightThickness(normalized);
+    setHighlightEnabled(true);
+  };
+
   const toggleLogoZoom = () => setLogoZoom((value) => !value);
 
   const runAssistantAction = ({ type, value }) => {
@@ -1407,19 +1549,77 @@ function AppContent() {
     document.documentElement.dataset.highlightStyle = highlightStyle;
   }, [highlightStyle]);
 
+  useEffect(() => {
+    if (!logoZoom) {
+      return undefined;
+    }
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setLogoZoom(false);
+      }
+    };
+
+    const handleAnyPointerDown = () => {
+      setLogoZoom(false);
+    };
+
+    window.addEventListener('keydown', handleEscape);
+    window.addEventListener('pointerdown', handleAnyPointerDown);
+    return () => {
+      window.removeEventListener('keydown', handleEscape);
+      window.removeEventListener('pointerdown', handleAnyPointerDown);
+    };
+  }, [logoZoom]);
+
   return (
     <div className="app">
       {isHomePage && (
         <header className="app-header">
+          {logoZoom && (
+            <>
+              <button
+                type="button"
+                className="app-logo-overlay"
+                onClick={toggleLogoZoom}
+                aria-label="Close logo preview"
+              />
+              <div
+                className="app-logo app-logo-modal"
+                onClick={toggleLogoZoom}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    toggleLogoZoom();
+                  }
+                }}
+                aria-label="Close logo preview"
+              >
+                <span className="app-logo-mark" aria-hidden="true">
+                  <span className="app-logo-tile app-logo-tile-a" />
+                  <span className="app-logo-tile app-logo-tile-b" />
+                  <span className="app-logo-tile app-logo-tile-c" />
+                </span>
+                <span className="app-logo-text">SM</span>
+              </div>
+            </>
+          )}
           <div className="app-header-content">
             <div className="app-header-top">
               <button
                 type="button"
-                className={`app-logo ${logoZoom ? 'zoomed' : ''}`}
+                className="app-logo"
                 onClick={toggleLogoZoom}
                 aria-label="Toggle logo zoom"
               >
-                PB
+                <span className="app-logo-mark" aria-hidden="true">
+                  <span className="app-logo-tile app-logo-tile-a" />
+                  <span className="app-logo-tile app-logo-tile-b" />
+                  <span className="app-logo-tile app-logo-tile-c" />
+                </span>
+                <span className="app-logo-text">SM</span>
               </button>
               <div>
                 <p className="eyebrow">{t.eyebrow}</p>
@@ -1475,9 +1675,11 @@ function AppContent() {
               highlightStyle={highlightStyle}
               highlightColor={highlightColor}
               highlightColors={highlightColors}
+              highlightThickness={highlightThickness}
               onSetHighlightStyle={handleSetHighlightStyle}
               onSelectHighlightColor={handleSelectHighlightColor}
               onSetHighlightColors={handleSetHighlightColors}
+              onSetHighlightThickness={handleSetHighlightThickness}
               onLocaleChange={handleLocaleChange}
               languageNames={LANGUAGE_NAMES}
             />
@@ -1620,7 +1822,7 @@ function AppContent() {
       </div>
 
       <footer className="app-footer">
-        <p>{t.footer}</p>
+        <p>© 2026 Simple Marketplace. Все права защищены.</p>
       </footer>
 
       <AIControlWidget locale={locale} onRunAction={runAssistantAction} />

@@ -165,6 +165,32 @@
   flex-wrap: wrap;
 }
 
+.hl-thickness-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.hl-thickness-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hl-thickness-slider {
+  width: 132px;
+  accent-color: #818cf8;
+  cursor: pointer;
+}
+
+.hl-thickness-value {
+  min-width: 44px;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 700;
+}
+
 /* Small circular preset buttons */
 .hl-preset-btn {
   width: 28px;

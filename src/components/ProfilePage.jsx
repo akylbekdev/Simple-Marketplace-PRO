@@ -24,7 +24,6 @@ export default function ProfilePage({
   userAdsCount = 0,
   userFavoritesCount = 0,
 }) {
-  const [authMode, setAuthMode] = useState('login');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,194 +43,148 @@ export default function ProfilePage({
   const showAuthForm = !user || isAnonymous;
   const initials = getInitials(user?.displayName, user?.email);
 
-  const switchMode = (mode) => {
-    setAuthMode(mode);
-    setPassword('');
-  };
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event, mode) => {
     event.preventDefault();
-    const success = await onEmailAuth({ mode: authMode, name, email, password });
+    const success = await onEmailAuth({ mode, name, email, password });
     if (!success) return;
-    if (authMode === 'login') {
-      setPassword('');
-    } else {
+    if (mode === 'register') {
       setName('');
       setEmail('');
       setPassword('');
+      return;
     }
+    setPassword('');
   };
 
   return (
     <div className="container">
       <div className="profile-page">
-
-        {/* User identity card */}
-        <div className="profile-identity-card">
-          <div className="profile-avatar-wrap">
-            <div className="profile-avatar-circle">{initials}</div>
-          </div>
-          <div className="profile-identity-info">
-            <div className="profile-identity-name">
-              {isAnonymous
-                ? t.guestAnonymous
-                : user?.displayName || user?.email || t.notAuthorized}
-            </div>
-            <div className="profile-identity-sub">
-              {isAnonymous ? t.profileSigninPrompt : t.profileWelcomeText}
-            </div>
-            {isAdmin && (
-              <span className="profile-admin-badge">{t.adminBadge}</span>
-            )}
-          </div>
-        </div>
-
-        {/* User Statistics */}
-        {!isAnonymous && !showAuthForm && (
-          <div className="profile-stats-card">
-            <div className="profile-stat-item">
-              <div className="profile-stat-icon">📢</div>
-              <div className="profile-stat-content">
-                <div className="profile-stat-label">Мои объявления</div>
-                <div className="profile-stat-value">{userAdsCount}</div>
-              </div>
-            </div>
-            <div className="profile-stat-item">
-              <div className="profile-stat-icon">❤️</div>
-              <div className="profile-stat-content">
-                <div className="profile-stat-label">Избранные</div>
-                <div className="profile-stat-value">{userFavoritesCount}</div>
-              </div>
-            </div>
-            <div className="profile-stat-item">
-              <div className="profile-stat-icon">⭐</div>
-              <div className="profile-stat-content">
-                <div className="profile-stat-label">Рейтинг</div>
-                <div className="profile-stat-value">5.0</div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Feedback messages */}
-        {error && <div className="profile-error">{error}</div>}
-        {message && <div className="profile-message">{message}</div>}
-
         {showAuthForm ? (
-          /* ─── Auth form ─── */
           <div className="profile-auth-card">
-            <div className="profile-auth-header">
-              <div>
-                <h2>{t.authPanelTitle}</h2>
-                <p>{t.authPanelDescription}</p>
-              </div>
-              <div className="profile-mode-tabs" role="tablist" aria-label={t.authPanelTitle}>
-                <button
-                  type="button"
-                  className={`profile-mode-tab ${authMode === 'login' ? 'active' : ''}`}
-                  onClick={() => switchMode('login')}
-                >
-                  {t.authModeLogin}
-                </button>
-                <button
-                  type="button"
-                  className={`profile-mode-tab ${authMode === 'register' ? 'active' : ''}`}
-                  onClick={() => switchMode('register')}
-                >
-                  {t.authModeRegister}
-                </button>
-              </div>
+            <div className="profile-auth-head">
+              <h2 className="profile-auth-title">{t.userProfile}</h2>
+              <p className="profile-auth-subtitle">Simple Marketplace</p>
             </div>
 
-            <form className="profile-form" onSubmit={handleSubmit}>
-              {authMode === 'register' && (
-                <label className="profile-field">
-                  <span>{t.authNameLabel}</span>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder={t.authNamePlaceholder}
-                    autoComplete="name"
-                  />
-                </label>
-              )}
-              <label className="profile-field">
-                <span>{t.userEmail}</span>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t.authEmailPlaceholder}
-                  autoComplete="email"
-                />
-              </label>
-              <label className="profile-field">
-                <span>{t.authPasswordLabel}</span>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder={t.authPasswordPlaceholder}
-                  autoComplete={authMode === 'login' ? 'current-password' : 'new-password'}
-                />
-              </label>
+            {error && <div className="profile-error">{error}</div>}
+            {message && <div className="profile-message">{message}</div>}
 
-              <div className="profile-form-actions">
+            <form className="profile-form" onSubmit={(event) => handleSubmit(event, 'login')}>
+              <input
+                className="profile-input"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder={`${t.authNamePlaceholder} (${t.authModeRegister})`}
+                autoComplete="name"
+              />
+
+              <input
+                className="profile-input"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t.authEmailPlaceholder}
+                autoComplete="email"
+              />
+
+              <input
+                className="profile-input"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={t.authPasswordPlaceholder}
+                autoComplete="current-password"
+              />
+
+              <div className="profile-auth-actions">
                 <button
-                  className="profile-btn profile-btn-primary"
+                  className="profile-btn-primary"
                   type="submit"
                   disabled={authLoading || !firebaseReady}
                 >
-                  {authLoading
-                    ? t.authSubmitLoading
-                    : authMode === 'login'
-                    ? t.authSubmitLogin
-                    : t.authSubmitRegister}
+                  {authLoading ? t.authSubmitLoading : t.authSubmitLogin}
                 </button>
+
                 <button
-                  className="profile-btn profile-btn-google"
+                  className="profile-btn-secondary"
                   type="button"
-                  onClick={onGoogleSignIn}
+                  onClick={(event) => handleSubmit(event, 'register')}
                   disabled={authLoading || !firebaseReady}
                 >
-                  {t.loginGoogle}
+                  {authLoading ? t.authSubmitLoading : t.authSubmitRegister}
                 </button>
               </div>
             </form>
 
-            <div className="profile-switch-row">
-              <span>{authMode === 'login' ? t.authSwitchToRegister : t.authSwitchToLogin}</span>
+            <div className="profile-social-section">
+              <span className="profile-social-label">
+                {t.loginGoogle ? 'Или войти через Google' : 'Or continue with Google'}
+              </span>
               <button
                 type="button"
-                className="profile-link-btn"
-                onClick={() => switchMode(authMode === 'login' ? 'register' : 'login')}
+                className="profile-google-btn"
+                onClick={onGoogleSignIn}
+                disabled={authLoading || !firebaseReady}
+                aria-label="Google"
               >
-                {authMode === 'login' ? t.authSwitchActionRegister : t.authSwitchActionLogin}
+                <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+                </svg>
+                <span>Google</span>
               </button>
             </div>
+
           </div>
         ) : (
-          /* ─── Account details ─── */
-          <div className="profile-details-card">
-            <div className="profile-details-grid">
-              <div className="profile-detail-item">
-                <span className="profile-detail-label">{t.userEmail}</span>
-                <span className="profile-detail-value">{user?.email || '—'}</span>
+          <div className="profile-account-card">
+            <h2 className="profile-auth-title">Профиль</h2>
+
+            <div className="profile-account-head">
+              <div className="profile-avatar-circle">{initials}</div>
+              <div className="profile-identity-name" title={user?.displayName || user?.email || ''}>
+                {user?.displayName || user?.email || t.notAuthorized}
               </div>
-              <div className="profile-detail-item">
-                <span className="profile-detail-label">{t.userUid}</span>
-                <span className="profile-detail-value profile-uid">{user?.uid}</span>
+              <div className="profile-identity-sub" title={user?.email || ''}>{user?.email}</div>
+              {isAdmin && <span className="profile-admin-badge">{t.adminBadge}</span>}
+            </div>
+
+            <div className="profile-stats-strip">
+              <div className="profile-stat-item">
+                <div className="profile-stat-value">{userAdsCount}</div>
+                <div className="profile-stat-label">Объявления</div>
               </div>
-              <div className="profile-detail-item">
-                <span className="profile-detail-label">{t.userProvider}</span>
-                <span className="profile-detail-value">
-                  {user?.providerData[0]?.providerId || 'anonymous'}
-                </span>
+              <div className="profile-stat-item">
+                <div className="profile-stat-value">{userFavoritesCount}</div>
+                <div className="profile-stat-label">Избранное</div>
+              </div>
+              <div className="profile-stat-item">
+                <div className="profile-stat-value">5.0</div>
+                <div className="profile-stat-label">Рейтинг</div>
               </div>
             </div>
+
+            {error && <div className="profile-error">{error}</div>}
+            {message && <div className="profile-message">{message}</div>}
+
+            <div className="profile-details-card">
+              <div className="profile-details-grid">
+                <div className="profile-detail-item">
+                  <span className="profile-detail-label">{t.userEmail}</span>
+                  <span className="profile-detail-value">{user?.email || '-'}</span>
+                </div>
+                <div className="profile-detail-item">
+                  <span className="profile-detail-label">{t.userProvider}</span>
+                  <span className="profile-detail-value">{user?.providerData[0]?.providerId || 'anonymous'}</span>
+                </div>
+              </div>
+            </div>
+
             <button
-              className="profile-btn profile-btn-signout"
+              className="profile-btn-signout"
               onClick={onSignOut}
               disabled={authLoading || !firebaseReady}
             >

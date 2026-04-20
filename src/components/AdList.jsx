@@ -11,7 +11,6 @@ export default function AdList({ ads, loading, error, onDelete, onFavoriteToggle
       await onDelete(adId);
     } catch (err) {
       console.error('Ошибка при удалении объявления:', err);
-      alert((t?.errorLoadingAds || 'Ошибка: ') + (err?.message || t?.delete || '')); 
     } finally {
       setDeletingId(null);
     }

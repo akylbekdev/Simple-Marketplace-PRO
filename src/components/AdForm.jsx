@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage, isFirebaseReady } from '../config/firebase';
 import '../styles/AdForm.css';
@@ -43,17 +43,57 @@ export default function AdForm({ onAdAdded, user, authLoading, t }) {
     setImagePreview(URL.createObjectURL(file));
   };
 
-  const uploadImage = async () => {
-    if (!imageFile) {
+  const loadImageElement = (file) => new Promise((resolve, reject) => {
+    const objectUrl = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl);
+      resolve(img);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      reject(new Error('Image decode failed'));
+    };
+    img.src = objectUrl;
+  });
+
+  const renderImageToCanvas = (img, maxSide) => {
+    const ratio = Math.min(maxSide / img.width, maxSide / img.height, 1);
+    const targetWidth = Math.max(1, Math.round(img.width * ratio));
+    const targetHeight = Math.max(1, Math.round(img.height * ratio));
+    const canvas = document.createElement('canvas');
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      return null;
+    }
+    ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+    return canvas;
+  };
+
+  const canvasToBlob = (canvas, quality) => new Promise((resolve) => {
+    canvas.toBlob(resolve, 'image/jpeg', quality);
+  });
+
+  const fileToDataUrl = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ''));
+    reader.onerror = () => reject(new Error('File read failed'));
+    reader.readAsDataURL(file);
+  });
+
+  const uploadImage = async (fileToUpload, ownerId) => {
+    if (!fileToUpload) {
       return null;
     }
 
     const fileRef = ref(
       storage,
-      `ads/${user?.uid || 'guest'}-${Date.now()}-${imageFile.name}`
+      `ads/${ownerId}-${Date.now()}-${fileToUpload.name}`
     );
 
-    const uploadTask = uploadBytesResumable(fileRef, imageFile);
+    const uploadTask = uploadBytesResumable(fileRef, fileToUpload);
 
     return new Promise((resolve, reject) => {
       uploadTask.on(
@@ -73,10 +113,49 @@ export default function AdForm({ onAdAdded, user, authLoading, t }) {
     });
   };
 
+  const optimizeImageFile = async (file) => {
+    // Small images do not need re-encoding.
+    if (!file || file.size <= 350 * 1024) {
+      return file;
+    }
+
+    try {
+      const img = await loadImageElement(file);
+      const canvas = renderImageToCanvas(img, 1600);
+      if (!canvas) {
+        return file;
+      }
+
+      const blob = await canvasToBlob(canvas, 0.78);
+
+      if (!blob || blob.size >= file.size) {
+        return file;
+      }
+
+      return new File([blob], `${file.name.replace(/\.[^.]+$/, '')}.jpg`, {
+        type: 'image/jpeg',
+        lastModified: Date.now()
+      });
+    } catch {
+      return file;
+    }
+  };
+
+  const resetForm = () => {
+    setTitle('');
+    setPrice('');
+    setDescription('');
+    setCategory(categories[0]);
+    setImageFile(null);
+    setImagePreview('');
+    setUploadProgress(0);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setUploadWarning('');
+    setUploadProgress(0);
     setLoading(true);
 
     try {
@@ -96,41 +175,117 @@ export default function AdForm({ onAdAdded, user, authLoading, t }) {
         );
       }
 
-      let imageUrl = null;
-      try {
-        imageUrl = await uploadImage();
-      } catch (uploadErr) {
-        console.warn('Не удалось загрузить фото, объявление будет сохранено без изображения:', uploadErr);
-        setUploadWarning('Фото не загружено. Объявление сохранено без изображения.');
-        imageUrl = null;
-      }
+      const ownerId = user?.uid || 'guest';
+      const selectedImageFile = imageFile;
 
-      await addDoc(collection(db, 'ads'), {
+      const adRef = await addDoc(collection(db, 'ads'), {
         title: title.trim(),
         price: Number(price),
         description: description.trim(),
         category,
         createdAt: serverTimestamp(),
-        createdBy: user?.uid || 'guest',
+        createdBy: ownerId,
         userName: user?.displayName || t.anonymousUser,
-        imageUrl: imageUrl || null
+        imageUrl: null
       });
 
-      setTitle('');
-      setPrice('');
-      setDescription('');
-      setCategory(categories[0]);
-      setImageFile(null);
-      setImagePreview('');
-      setUploadProgress(0);
+      const createdAd = {
+        id: adRef.id,
+        title: title.trim(),
+        price: Number(price),
+        description: description.trim(),
+        category,
+        createdAt: new Date().toISOString(),
+        createdBy: ownerId,
+        userName: user?.displayName || t.anonymousUser,
+        imageUrl: null
+      };
+
+      if (selectedImageFile) {
+        void (async () => {
+          try {
+            const previewUrl = await fileToDataUrl(selectedImageFile);
+            if (previewUrl && onAdAdded) {
+              onAdAdded({ ...createdAd, imageUrl: previewUrl });
+            }
+          } catch {
+            // Ignore preview generation issues.
+          }
+        })();
+      }
+
+      resetForm();
 
       if (onAdAdded) {
-        onAdAdded();
+        onAdAdded(createdAd);
+      }
+
+      if (selectedImageFile) {
+        setUploadWarning('Объявление добавлено. Фото загружается в фоне...');
+        const adDocRef = doc(db, 'ads', adRef.id);
+
+        void (async () => {
+          try {
+            const optimizedFile = await optimizeImageFile(selectedImageFile);
+            const imageUrl = await uploadImage(optimizedFile, ownerId);
+            if (!imageUrl) {
+              return;
+            }
+            await updateDoc(adDocRef, {
+              imageUrl
+            });
+            if (onAdAdded) {
+              onAdAdded({ ...createdAd, imageUrl });
+            }
+            setUploadWarning('');
+          } catch (uploadErr) {
+            console.warn('Не удалось загрузить фото в фоне:', uploadErr);
+            setUploadWarning('Объявление добавлено, но фото не загрузилось.');
+          } finally {
+            setUploadProgress(0);
+          }
+        })();
       }
     } catch (err) {
       console.error('Ошибка при добавлении объявления:', err);
       const errorCode = String(err?.code || '');
       const activeProjectId = db?.app?.options?.projectId || import.meta.env.VITE_FIREBASE_PROJECT_ID || 'unknown';
+
+      if (errorCode.includes('permission-denied')) {
+        try {
+          const selectedImageFile = imageFile;
+          let imagePreviewUrl = null;
+
+          if (selectedImageFile) {
+            const optimizedFile = await optimizeImageFile(selectedImageFile);
+            imagePreviewUrl = await fileToDataUrl(optimizedFile);
+          }
+
+          const localAd = {
+            id: `local-${Date.now()}`,
+            title: title.trim(),
+            price: Number(price),
+            description: description.trim(),
+            category,
+            createdAt: new Date().toISOString(),
+            createdBy: user?.uid || 'guest',
+            userName: user?.displayName || t.anonymousUser,
+            imageUrl: imagePreviewUrl || null,
+            localOnly: true
+          };
+
+          resetForm();
+          setError('');
+          setUploadWarning('Объявление сохранено локально на этом устройстве.');
+          if (onAdAdded) {
+            onAdAdded(localAd);
+          }
+          return;
+        } catch (fallbackError) {
+          console.error('Ошибка локального сохранения объявления:', fallbackError);
+        }
+      }
+
       if (errorCode.includes('permission-denied')) {
         setError(
           `Нет прав на запись в Firestore. Проект: ${activeProjectId}. Код: ${errorCode || 'unknown'}. Откройте Firebase Console -> Firestore Database -> Rules и опубликуйте правила именно в этом проекте.`

@@ -12,9 +12,11 @@ export default function AuthBar({
   highlightStyle,
   highlightColor,
   highlightColors,
+  highlightThickness,
   onSetHighlightStyle,
   onSelectHighlightColor,
   onSetHighlightColors,
+  onSetHighlightThickness,
   onLocaleChange,
   languageNames,
 }) {
@@ -149,6 +151,25 @@ export default function AuthBar({
             <span className="toolbar-hint">
               {colors.length > 1 ? `${colors.length} colours` : t.highlightStyleLabel}
             </span>
+          </div>
+
+          <div className="hl-thickness-row">
+            <label htmlFor="highlight-thickness" className="toolbar-label">
+              {t.highlightThicknessLabel}
+            </label>
+            <div className="hl-thickness-control">
+              <input
+                id="highlight-thickness"
+                className="hl-thickness-slider"
+                type="range"
+                min="1"
+                max="20"
+                step="1"
+                value={highlightThickness}
+                onChange={(event) => onSetHighlightThickness(event.target.value)}
+              />
+              <span className="hl-thickness-value">{highlightThickness}px</span>
+            </div>
           </div>
 
           {/* Colour wheel shown inline in the toolbar */}
